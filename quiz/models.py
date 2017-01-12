@@ -135,6 +135,12 @@ class Quiz(models.Model):
                     " taken by users who can edit"
                     " quizzes."))
 
+    duration = models.DurationField(
+        blank=True, verbose_name=_("Duration"),
+        help_text=_("Maximum time allowed for the quiz.")
+    )
+
+
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         self.url = re.sub('\s+', '-', self.url).lower()
 
