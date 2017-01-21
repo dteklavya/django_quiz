@@ -1,6 +1,6 @@
 {% load i18n %}
 <!DOCTYPE html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" ng-app="quizApp">
 <head>
 <meta charset="utf-8">
 
@@ -10,10 +10,39 @@
 <!-- styles -->
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
+<style>
+.end {
+  color:red;
+}
+</style>
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+  <script src="https://cdn.rawgit.com/EvanHahn/HumanizeDuration.js/master/humanize-duration.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <script src="https://cdn.rawgit.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>
+
+  <script>
+    angular.module('quizApp', ['timer'])
+      .controller('TimeCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+        $scope.timerColor = {};
+	$scope.timerColor.color = 'end';
+        $scope.onTimeout = function () {
+	  // Pass, TODO - Submit, save and end quiz
+        };
+
+	$scope.$on('timer-tick', function (event, data) {
+	  $scope.$apply(function(){
+	    $scope.timeleft = data.millis / 1000;
+	    console.log("TimeRight: " + $scope.timeleft);
+	  });
+	});
+      }]);
+  </script>
 
 </head>
 

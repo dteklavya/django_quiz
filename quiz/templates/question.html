@@ -53,26 +53,41 @@
   <strong>{{ question.category }}</strong>
 </p>
 
-<p class="lead">{{ question.content }}</p>
 
-{% if question.figure %}
-    <img src="{{ question.figure.url }}" alt="{{ question.content }}" />
-{% endif %}
+<div ng-controller="TimeCtrl">
+  <div style="float: right;" ng-class="timerColor.color">
+    Time remaining: 
+    <timer resume="1" interval="1000" countdown="{{quiz.duration.total_seconds}}">
+    {% verbatim %} {{hours}} hour{{hoursS}}, {{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.
+    {% endverbatim %}
+    </timer>
+  </div>
+  
+  
+  <p class="lead">{{ question.content }}</p>
+  
+  {% if question.figure %}
+      <img src="{{ question.figure.url }}" alt="{{ question.content }}" />
+  {% endif %}
+  
+  <form action="" method="POST">{% csrf_token %}
+    <input type=hidden name="question_id" value="{{ question.id }}">
+    <input type=hidden name="timeleft" ng-model="timeleft" ng-bind="timeleft" value="{% verbatim %} {{timeleft}} {% endverbatim %}">
+    <!-- <div ng-model="timeleft" ng-bind="timeleft">{% verbatim %} {{timeleft}} {% endverbatim %}</div> -->
+  
+    <ul class="list-group">
+  
+  	{% for answer in form.answers %}
+  	  <li class="list-group-item">
+  	    {{ answer }}
+  	  </li>
+  	{% endfor %}
+  
+    </ul>
+    <input type="submit" value={% trans "Check" %} class="btn btn-large btn-block btn-warning" >
+  </form>
 
-<form action="" method="POST">{% csrf_token %}
-  <input type=hidden name="question_id" value="{{ question.id }}">
-
-  <ul class="list-group">
-
-	{% for answer in form.answers %}
-	  <li class="list-group-item">
-	    {{ answer }}
-	  </li>
-	{% endfor %}
-
-  </ul>
-  <input type="submit" value={% trans "Check" %} class="btn btn-large btn-block btn-warning" >
-</form>
+</div>
 
 {% endif %}
 
