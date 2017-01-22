@@ -57,7 +57,7 @@
 <div ng-controller="TimeCtrl">
   <div style="float: right;" ng-class="timerColor.color">
     Time remaining: 
-    <timer resume="1" interval="1000" countdown="{{quiz.duration.total_seconds}}">
+    <timer resume="1" interval="1000" countdown="{{request.session.duration}}">
     {% verbatim %} {{hours}} hour{{hoursS}}, {{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.
     {% endverbatim %}
     </timer>

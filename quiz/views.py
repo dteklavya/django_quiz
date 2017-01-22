@@ -182,6 +182,7 @@ class QuizTake(FormView):
             if not self.request.session[self.quiz.anon_q_list()]:
                 return self.final_result_anon()
 
+        self.request.session["duration"] = self.request.POST["timeleft"]
         self.request.POST = {}
 
         return super(QuizTake, self).get(self, self.request)
@@ -281,6 +282,7 @@ class QuizTake(FormView):
             order=question_list,
         )
 
+        self.request.session["duration"] = self.quiz.duration.total_seconds()
         return self.request.session[self.quiz.anon_q_list()]
 
     def anon_next_question(self):
