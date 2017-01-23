@@ -173,16 +173,18 @@ class QuizTake(FormView):
         return dict(kwargs, question=self.question)
 
     def form_valid(self, form):
+        self.request.session["duration"] = int(self.request.POST["timeleft"])
         if self.logged_in_user:
             self.form_valid_user(form)
-            if self.sitting.get_first_question() is False:
-                return self.final_result_user()
+            if (self.sitting.get_first_question() is False
+                or self.request.session["duration"] == 0):
+                    return self.final_result_user()
         else:
             self.form_valid_anon(form)
-            if not self.request.session[self.quiz.anon_q_list()]:
-                return self.final_result_anon()
+            if (not self.request.session[self.quiz.anon_q_list()]
+                or self.request.session["duration"] == 0):
+                    return self.final_result_anon()
 
-        self.request.session["duration"] = self.request.POST["timeleft"]
         self.request.POST = {}
 
         return super(QuizTake, self).get(self, self.request)
