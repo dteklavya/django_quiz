@@ -55,13 +55,15 @@
 
 
 <div ng-controller="TimeCtrl">
-  <div style="float: right;" ng-class="timerColor.color">
-    Time remaining: 
-    <timer resume="1" interval="1000" countdown="{{request.session.duration}}">
-    {% verbatim %} {{hhours}} hour{{hhoursS}}, {{mminutes}} minute{{mminutesS}}, {{sseconds}} second{{ssecondsS}}.
-    {% endverbatim %}
-    </timer>
-  </div>
+  {% if request.session.duration %}
+    <div style="float: right;" ng-class="timerColor.color">
+      Time remaining: 
+      <timer resume="1" interval="1000" countdown="{{request.session.duration}}">
+      {% verbatim %} {{hhours}} hour{{hhoursS}}, {{mminutes}} minute{{mminutesS}}, {{sseconds}} second{{ssecondsS}}.
+      {% endverbatim %}
+      </timer>
+    </div>
+  {% endif %}
   
   
   <p class="lead">{{ question.content }}</p>
@@ -72,8 +74,10 @@
   
   <form action="" method="POST">{% csrf_token %}
     <input type=hidden name="question_id" value="{{ question.id }}">
-    <input type=hidden name="timeleft" ng-model="timeleft" ng-bind="timeleft" value="{% verbatim %} {{timeleft}} {% endverbatim %}">
-    <!-- <div ng-model="timeleft" ng-bind="timeleft">{% verbatim %} {{timeleft}} {% endverbatim %}</div> -->
+    {% if request.session.duration %}
+      <input type=hidden name="timeleft" ng-model="timeleft" ng-bind="timeleft" value="{% verbatim %} {{timeleft}} {% endverbatim %}">
+      <!-- <div ng-model="timeleft" ng-bind="timeleft">{% verbatim %} {{timeleft}} {% endverbatim %}</div> -->
+    {% endif %}
   
     <ul class="list-group">
   
