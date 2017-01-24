@@ -136,7 +136,7 @@ class Quiz(models.Model):
                     " quizzes."))
 
     duration = models.DurationField(
-        blank=True, verbose_name=_("Duration"),
+        blank=True, null=True, verbose_name=_("Duration"),
         help_text=_("Maximum time allowed for the quiz.")
     )
 
